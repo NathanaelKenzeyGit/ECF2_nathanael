@@ -30,8 +30,7 @@ class Student
     #[ORM\Column(length: 255)]
     private ?string $photo_path = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+
 
     /**
      * @var Collection<int, Absence>
@@ -109,17 +108,7 @@ class Student
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Absence>
@@ -149,5 +138,9 @@ class Student
         }
 
         return $this;
+    }
+    public function countAbsences(): int
+    {
+        return $this->absences->count();
     }
 }

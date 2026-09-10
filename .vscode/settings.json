@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.twig": "html"
+    },
+    "emmet.includeLanguages": {
+        "twig": "html"
+    },
+    "[html]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+    },
+    "[twig]": {
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4
+    }
+}

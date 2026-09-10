@@ -40,4 +40,14 @@ class AbsenceRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findByReasonCode(string $code): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.reason', 'r')
+            ->andWhere('r.code = :code')
+            ->setParameter('code', $code)
+            ->orderBy('a.absenceDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
