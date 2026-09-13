@@ -15,7 +15,23 @@ class StudentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Student::class);
     }
-
+    public function countAll(): int
+    {
+        return $this->createQueryBuilder('s')
+            ->select('COUNT(s.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function findRankedByAbsences(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.firstName', 's.lastName', 'COUNT(a.id) AS total')
+            ->leftJoin('s.absences', 'a')
+            ->groupBy('s.id')
+            ->orderBy('total', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Student[] Returns an array of Student objects
     //     */

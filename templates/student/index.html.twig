@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page admin{% endblock %}
+
+{% block body %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>absences injustifiée</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for student in students %}
+            <tr>
+                <td>{{ student.firstName }}</td>
+                <td>{{ student.lastName }}</td>
+                <td>{{ student.email }}</td>
+                <td class="{{ student.countUnjustifiedAbsences > 5 ? 'text-danger fw-bold' }}">
+    {{ student.countUnjustifiedAbsences }}
+</td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <a href="{{ path('app_student_edit', {'id': student.id}) }}"
+                           class="btn btn-outline-primary">
+                            Modifier
+                        </a>
+
+                        <form method="post"
+                              action="{{ path('app_student_delete', {'id': student.id}) }}">
+                            <input type="hidden"
+                                   name="_token"
+                                   value="{{ csrf_token('delete' ~ student.id) }}">
+
+                            <button class="btn btn-danger">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+		    <tr>
+        <td colspan="12">
+            Nombre d'étudiants : {{ students|length }}
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+{% endblock %}

@@ -3,46 +3,60 @@
 {% block title %}Page d'accueil{% endblock %}
 
 {% block body %}
-
-	<div class="container">
-
+	<div class="container py-4">
 		<div class="row g-4">
-<pre>
-    {{ dump(students) }}
-</pre>
 			{% for student in students %}
-
 				<div class="col-12 col-md-6 col-lg-4">
-
 					<div class="card h-100">
+						{% if student.photoPath %}
+							<img src="{{ asset('uploads/photos/' ~ student.photoPath) }}"
+							     class="card-img-top" alt="{{ student.lastName }}">
+						{% else %}
+							<div class="bg-secondary-subtle d-flex align-items-center justify-content-center"
+							     style="height: 200px">
+								<span class="fs-1 text-secondary">
+									{{ student.firstName|first }}{{ student.lastName|first }}
+								</span>
+							</div>
+						{% endif %}
 
-						<img
-							class="card-img-top"
-							src="https://picsum.photos/200/200"
-							alt="Photo de {{ student.firstName }}"
-						>
-
-						<div class="card-body">
-<div class="d-flex flex-column gap-2">
-							<h5 class="card-title">
-								{{ student.firstName ~ " " ~ student.lastName }}
+						<div class="card-body d-flex flex-column gap-2">
+							<h5 class="card-title {{ student.countUnjustifiedAbsences > 5 ? 'text-danger fw-bold' }}">
+								{{ student.firstName }} {{ student.lastName }}
 							</h5>
-<span class="card-text">{{student.email }}</span>
-<span class="card-text">Date de naissance : {{student.birthDate|date('d/m/Y') }}</span>
-<span class="card-text">Nombre absence : {{student.countAbsences }}</span>
-<a href="#" class="btn btn-warning">Editer</a>
-<a href="#" class="btn btn-danger">Supprimer</a>
-</div>
+						
+							{% if is_granted('ROLE_ADMIN') %}
+								<span class="card-text">
+									Absences : {{ student.countAbsences }}
+									(dont {{ student.countUnjustifiedAbsences }} sans motif)
+								</span>
+                                	<span class="card-text">{{ student.email }}</span>
+							<span class="card-text">
+								Date de naissance : {{ student.birthDate|date('d/m/Y') }}
+							</span>
+                             <a href="{{ path('app_absence_new', {'id': student.id}) }}" class="stretched-link"></a>
+							{% endif %}
 						</div>
-
 					</div>
-
 				</div>
-
 			{% endfor %}
-
 		</div>
-
 	</div>
+{% endblock %}
 
+{% block stats %}
+	<p>Total des absences : <strong>{{ totalAbsences }}</strong></p>
+
+	<h6>Classement</h6>
+	{% if ranking is empty %}
+		<p class="text-muted">Aucune donnée.</p>
+	{% else %}
+		<ul>
+			{% for row in ranking %}
+				<li>{{ row.firstName }} {{ row.lastName }} — {{ row.total }}</li>
+			{% endfor %}
+		</ul>
+        <span>Une absence a la journée coute </span>
+        <p>Perte estimée : <strong>{{ lostRevenue|number_format(2, ',', ' ') }} €</strong></p>
+	{% endif %}
 {% endblock %}

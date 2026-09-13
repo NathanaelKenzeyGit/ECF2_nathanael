@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container py-4">
+    <a href="{{ path('app_absence_new') }}" class="btn btn-primary mb-3">Nouvelle absence</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Etudiant</th>
+                <th>Motif</th>
+                <th>Justificatif</th>
+                <th>Saisi par</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for absence in absences %}
+                <tr>
+                    <td>{{ absence.absenceDate|date('d/m/Y') }}</td>
+                    <td>{{ absence.student.lastName ~ " " ~ absence.student.firstName }}</td>
+                    <td>{{ absence.reason.label}}</td>
+                    <td>
+    {% if absence.documentPath %}
+        <span class="badge bg-success">Oui</span>
+    {% else %}
+        <span class="text-muted">—</span>
+    {% endif %}
+</td>
+<td>{{absence.createdBy.username }}</td>
+<td>
+    <div class="d-flex gap-3">
+        <a href="#" class="btn btn-warning">Editer</a>
+        <a href="#" class="btn btn-danger">Suppression</a>
+    </div>
+</td>
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

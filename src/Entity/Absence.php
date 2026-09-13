@@ -3,9 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\AbsenceRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AbsenceRepository::class)]
+#[ORM\UniqueConstraint(columns: ['student_id', 'absence_date'])]
+#[UniqueEntity(fields: ['student', 'absenceDate'], message: 'Cette absence est déjà enregistrée.')]
 class Absence
 {
     #[ORM\Id]
@@ -13,11 +17,11 @@ class Absence
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $absence_date = null;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $absenceDate = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'absences')]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,6 +35,9 @@ class Absence
     #[ORM\JoinColumn(nullable: false)]
     private ?Admin $createdBy = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $documentPath = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -38,24 +45,24 @@ class Absence
 
     public function getAbsenceDate(): ?\DateTimeImmutable
     {
-        return $this->absence_date;
+        return $this->absenceDate;
     }
 
-    public function setAbsenceDate(\DateTimeImmutable $absence_date): static
+    public function setAbsenceDate(\DateTimeImmutable $absenceDate): static
     {
-        $this->absence_date = $absence_date;
+        $this->absenceDate = $absenceDate;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -92,6 +99,18 @@ class Absence
     public function setCreatedBy(?Admin $createdBy): static
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getDocumentPath(): ?string
+    {
+        return $this->documentPath;
+    }
+
+    public function setDocumentPath(?string $documentPath): static
+    {
+        $this->documentPath = $documentPath;
 
         return $this;
     }

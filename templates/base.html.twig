@@ -1,17 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="UTF-8">
-		<title>{% block title %}Welcome!{% endblock %}</title>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-		{% block stylesheets %}
-		{% endblock %}
-
-		{% block javascripts %}
-			{% block importmap %}{{ importmap('app') }}{% endblock %}
-		{% endblock %}
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %}Gestion des absences{% endblock %}</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+		      rel="stylesheet"
+		      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+		      crossorigin="anonymous">
+		{% block stylesheets %}{% endblock %}
 	</head>
-	<body>
+	<body class="bg-body-tertiary">
+		{{ include('partials/_navbar.html.twig') }}
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+</div>
 		{% block body %}{% endblock %}
+
+		<div class="offcanvas offcanvas-end" tabindex="-1" id="statsPanel" aria-labelledby="statsPanelLabel">
+			<div class="offcanvas-header">
+				<h5 class="offcanvas-title" id="statsPanelLabel">Statistiques</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fermer"></button>
+			</div>
+			<div class="offcanvas-body">
+				{% block stats %}
+					<p class="text-muted">Statistiques indisponibles sur cette page.</p>
+				{% endblock %}
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 	</body>
 </html>

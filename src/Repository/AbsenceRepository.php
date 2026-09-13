@@ -15,7 +15,10 @@ class AbsenceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Absence::class);
     }
-
+    public function getLostRevenue(): float
+    {
+        return $this->count([]) * (712 / 21);
+    }
     //    /**
     //     * @return Absence[] Returns an array of Absence objects
     //     */
