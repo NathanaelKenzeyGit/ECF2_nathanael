@@ -22,11 +22,11 @@
                     <td>{{ absence.student.lastName ~ " " ~ absence.student.firstName }}</td>
                     <td>{{ absence.reason.label}}</td>
                     <td>
-    {% if absence.documentPath %}
-        <span class="badge bg-success">Oui</span>
-    {% else %}
-        <span class="text-muted">—</span>
-    {% endif %}
+{% if absence.documentPath %}
+    <a href="{{ asset('uploads/documents/' ~ absence.documentPath) }}" target="_blank" class="btn btn-sm btn-outline-secondary">Voir</a>
+{% else %}
+    <span class="text-muted">—</span>
+{% endif %}
 </td>
 <td>{{absence.createdBy.username }}</td>
 <td>

@@ -33,14 +33,19 @@ class AbsenceType extends AbstractType
                 'label' => 'Motif',
             ])
             ->add('proofFile', FileType::class, [
-                'label' => 'Justificatif (PDF)',
+                'label' => 'Justificatif (PDF ou image)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '5M',
-                        'mimeTypes' => ['application/pdf'],
-                        'mimeTypesMessage' => 'Merci de déposer un fichier PDF.',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'image/png',
+                            'image/jpeg',
+                            'image/webp',
+                        ],
+                        'mimeTypesMessage' => 'Merci de déposer un PDF, PNG, JPEG ou WebP.',
                     ]),
                 ],
             ])
