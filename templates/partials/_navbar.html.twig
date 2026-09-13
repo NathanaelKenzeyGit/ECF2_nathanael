@@ -3,13 +3,17 @@
 		<a href="{{ path('app_home') }}" class="navbar-brand">Trombinoscope</a>
 
 		<div class="d-flex gap-2">
-			<button class="btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#statsPanel">
-    Statistiques
-</button>
+{% if app.request.attributes.get('_route') == 'app_home' %}
+    <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#statsPanel">Statistiques</button>
+{% endif %}
 			{% if is_granted('ROLE_ADMIN') and app.user %}
+
 			<p>Hello {{app.user.username }}</p>
-			<a href="{{path('app_student_index') }}" class="btn btn-outline-secondary">Liste stagiaires</a>
-			<a href="{{path('app_logout') }}" class="btn btn-danger">Deconnexion</a>
+			<a href="{{path('app_student_index') }}" class="btn btn-secondary"> Stagiaires</a>  
+
+			<a href="{{path('app_absence_index') }}" class="btn btn-outline-secondary"> Absences</a>
+			<a href="{{path('app_logout') }}" class="btn btn-primary">Deconnexion</a>
+
 			{% else %}
 			<a href="{{path('app_login') }}" class="btn btn-success">Connexion</a>
 				

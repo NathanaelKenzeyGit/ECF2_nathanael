@@ -56,7 +56,7 @@
 				<li>{{ row.firstName }} {{ row.lastName }} — {{ row.total }}</li>
 			{% endfor %}
 		</ul>
-        <span>Une absence a la journée coute </span>
+        <span>Une absence a la journée coute environ 33e </span>
         <p>Perte estimée : <strong>{{ lostRevenue|number_format(2, ',', ' ') }} €</strong></p>
 	{% endif %}
 {% endblock %}

@@ -31,7 +31,14 @@
 <td>{{absence.createdBy.username }}</td>
 <td>
     <div class="d-flex gap-3">
-        <a href="#" class="btn btn-warning">Editer</a>
+    <a href="{{ path('app_absence_edit', {'id': absence.id}) }}"
+    class="btn btn-warning">
+    Modifier
+    </a>
+    <a href="{{ path('app_absence_delete', {'id': absence.id}) }}"
+    class="btn btn-danger">
+    Supprimer
+    </a>
         <a href="#" class="btn btn-danger">Suppression</a>
     </div>
 </td>
